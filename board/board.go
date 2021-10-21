@@ -14,11 +14,10 @@ type Moves interface {
 	down()
 }
 
-
-func getEmptyRows(board [][]int) []int{
+func getEmptyRows(board [][]int) []int {
 	rows := []int{}
-	for idx, row := range(board) {
-		for _, val := range(row) {
+	for idx, row := range board {
+		for _, val := range row {
 			if val == 0 {
 				rows = append(rows, idx)
 				break
@@ -30,14 +29,13 @@ func getEmptyRows(board [][]int) []int{
 
 func getEmptyCols(row []int) []int {
 	cols := []int{}
-	for idx, val := range(row) {
+	for idx, val := range row {
 		if val == 0 {
 			cols = append(cols, idx)
 		}
 	}
 	return cols
 }
-
 
 func (b Board) Spawn() {
 	emptyRows := getEmptyRows(b)
@@ -48,7 +46,7 @@ func (b Board) Spawn() {
 }
 
 func getLeftNonZero(row []int, ptr int) int {
-	for i:=ptr-1; i>=0; i-- {
+	for i := ptr - 1; i >= 0; i-- {
 		if row[i] != 0 {
 			return i
 		}
@@ -71,12 +69,12 @@ func moveRight(row []int) {
 
 // Right defines swipe right action
 func (b Board) Right() {
-	for _, row := range(b) {
+	for _, row := range b {
 		// first swipe non zero to right
 		moveRight(row)
 
 		// now merge same element(s)
-		for i:=len(row)-1; i>0; i-- {
+		for i := len(row) - 1; i > 0; i-- {
 			if row[i] != 0 && row[i] == row[i-1] {
 				row[i] *= 2
 				row[i-1] = 0
@@ -87,7 +85,7 @@ func (b Board) Right() {
 }
 
 func getRightNonZero(row []int, ptr int) int {
-	for i:=ptr+1; i<len(row); i++ {
+	for i := ptr + 1; i < len(row); i++ {
 		if row[i] != 0 {
 			return i
 		}
@@ -97,7 +95,7 @@ func getRightNonZero(row []int, ptr int) int {
 
 func moveLeft(row []int) {
 	ptr := 0
-	for ptr < len(row) - 1 {
+	for ptr < len(row)-1 {
 		if row[ptr] == 0 {
 			nonZeroIdx := getRightNonZero(row, ptr)
 			if nonZeroIdx != -1 {
@@ -110,12 +108,12 @@ func moveLeft(row []int) {
 
 // Left defines swipe left action
 func (b Board) Left() {
-	for _, row := range(b) {
+	for _, row := range b {
 		// first swipe non zero to left
 		moveLeft(row)
 
 		// now merge same element(s)
-		for i:=0; i<len(row)-1; i++ {
+		for i := 0; i < len(row)-1; i++ {
 			if row[i] != 0 && row[i] == row[i+1] {
 				row[i] *= 2
 				row[i+1] = 0
@@ -127,9 +125,9 @@ func (b Board) Left() {
 
 func transpose(board [][]int) {
 	temp := make([][]int, 4)
-	for i:=0; i<len(board[0]); i++ {
+	for i := 0; i < len(board[0]); i++ {
 		temp[i] = make([]int, 4)
-		for j:=0; j<len(board); j++ {
+		for j := 0; j < len(board); j++ {
 			temp[i][j] = board[j][i]
 		}
 	}
@@ -156,8 +154,8 @@ func (b Board) Down() {
 
 // GameOver checks whether the game is over
 func (b Board) GameOver() bool {
-	for _, row := range(b) {
-		for _, col := range(row) {
+	for _, row := range b {
+		for _, col := range row {
 			if col == 2048 {
 				return true
 			}
@@ -169,16 +167,16 @@ func (b Board) GameOver() bool {
 // Format board for printing
 func (b Board) String() string {
 	str := "\n-----------------------------------------------------------------\n"
-	for _, row := range(b) {
-		for i:=0; i<len(row); i++ {
+	for _, row := range b {
+		for i := 0; i < len(row); i++ {
 			str += "| \t\t"
 		}
 		str += "|\n| "
-		for _, col := range(row) {
+		for _, col := range row {
 			str += fmt.Sprintf("\t%d\t|", col)
 		}
 		str += "\n"
-		for i:=0; i<len(row); i++ {
+		for i := 0; i < len(row); i++ {
 			str += "| \t\t"
 		}
 		str += "|\n-----------------------------------------------------------------\n"

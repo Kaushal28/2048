@@ -19,7 +19,7 @@ func main() {
 		fmt.Println(b)
 		var move string
 		fmt.Scanln(&move)
-		
+
 		switch strings.ToLower(move) {
 		case "u":
 			b.Up()
