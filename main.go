@@ -15,7 +15,7 @@ func main() {
 	b.Spawn()
 
 	steps := 0
-	for !b.GameOver() {
+	for {
 		fmt.Println(b)
 		var move string
 		fmt.Scanln(&move)
@@ -36,6 +36,15 @@ func main() {
 		// spawn a new tile randomly
 		b.Spawn()
 		steps += 1
+
+		gameOver, playerWon := b.GameOver()
+		if gameOver {
+			if playerWon {
+				fmt.Println(fmt.Sprintf("You won in %d steps!", steps))
+			} else {
+				fmt.Println(fmt.Sprintf("Game over after %d steps. Better luck next time!", steps))
+			}
+			break
+		}
 	}
-	fmt.Println(fmt.Sprintf("You won in %d steps!", steps))
 }

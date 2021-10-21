@@ -153,15 +153,26 @@ func (b Board) Down() {
 }
 
 // GameOver checks whether the game is over
-func (b Board) GameOver() bool {
+func (b Board) GameOver() (bool, bool) {
+	// check if player has won
 	for _, row := range b {
 		for _, col := range row {
 			if col == 2048 {
-				return true
+				return true, true
 			}
 		}
 	}
-	return false
+
+	spaceLeft := false
+	// check if board is full
+	for _, row := range b {
+		for _, col := range row {
+			if col == 0 {
+				spaceLeft = true
+			}
+		}
+	}
+	return !spaceLeft, false
 }
 
 // Format board for printing
